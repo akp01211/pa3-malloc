@@ -1,0 +1,17 @@
+# --- LLVM Code Formatting Style (4-Space Indent) ---
+#
+# Project: cse29sp26/pa3-malloc
+# Date:    2026-05-06
+#
+# This file configures clang-format to use the LLVM coding style
+# as a base, but overrides the indentation to 4 spaces.
+# See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+#
+# ---
+
+Language: Cpp
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: Never
+ColumnLimit: 80
+AllowShortIfStatementsOnASingleLine: false

@@ -1,0 +1,7 @@
+libvm.so
+vmtest
+.*.sw*
+*.o
+
+.DS_Store
+*Zone.Identifier

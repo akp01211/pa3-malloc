@@ -1,0 +1,2 @@
+- Used CoPilot to fix a small pointer compilation error
+- Used ChatGPT to help me with various syntax errors, including solving elif vs else if (no elif in C)

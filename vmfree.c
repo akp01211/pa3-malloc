@@ -10,11 +10,11 @@
  * If ptr is NULL, no operation is performed.
  */
 
-static struct b_header *block_n(struct b_header *b){
-    return(struct b_header *)((char *)b+BLKSZ(b));
+static struct block_header *block_n(struct block_header *b){
+    return(struct block_header *)((char *)b+BLKSZ(b));
 }
-static void footer_w(struct b_header *b){
-    struct footer_w *f = (struct footer_w *)((char*)b + BLKSZ(b)-sizeof(struct footer_w));
+static void footer_w(struct block_header *b){
+    struct block_footer *f = (struct block_footer *)((char*)b + BLKSZ(b)-sizeof(struct block_footer));
 
 
     f->size = BLKSZ(b);
@@ -22,14 +22,14 @@ static void footer_w(struct b_header *b){
 
 }
  
-static struct b_header *prev_block(struct b_header *b) {
+static struct block_header *prev_block(struct block_header *b) {
 
 
-    struct footer_w *pf = (struct footer_w *)((char *)b - sizeof(struct footer_w));
+    struct block_footer *pf = (struct block_footer *)((char *)b - sizeof(struct block_footer));
 
 
 
-    return (struct b_header *)((char *)b -pf->size);
+    return (struct block_header *)((char *)b -pf->size);
 }
 
 void vmfree(void *ptr){
@@ -43,7 +43,7 @@ void vmfree(void *ptr){
 
     }
  
-    struct b_header *bl = (struct b_header *)((char *)ptr - sizeof(struct b_header));
+    struct block_header *bl = (struct block_header *)((char *)ptr - sizeof(struct block_header));
  
 
 
@@ -61,7 +61,7 @@ void vmfree(void *ptr){
 
  
     // Right first
-    struct b_header *nxt=block_n(bl);
+    struct block_header *nxt=block_n(bl);
 
 
     if (nxt->size_status!= VM_ENDMARK&& !(nxt->size_status & VM_BUSY)){
@@ -71,7 +71,7 @@ void vmfree(void *ptr){
 
 
 
-        struct b_header *after =block_n(bl);
+        struct block_header *after =block_n(bl);
         if (after->size_status != VM_ENDMARK){
 
 
@@ -93,7 +93,7 @@ void vmfree(void *ptr){
  
     // Left
     if(!(bl->size_status& VM_PREVBUSY)){
-        struct b_header *pr= prev_block(bl);
+        struct block_header *pr= prev_block(bl);
         pr->size_status= (BLKSZ(pr) +BLKSZ(bl)) |(pr->size_status & VM_PREVBUSY);
         
         

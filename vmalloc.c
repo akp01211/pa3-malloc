@@ -1,9 +1,7 @@
 #include "vm.h"
 #include "vmlib.h"
 
-struct block_footer {
-    size_t size;
-};
+
 
 /**
  * Allocate a memory block with the given minimum size on the simulated heap.
